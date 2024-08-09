@@ -17,13 +17,18 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from packaging import version
 import tensorflow as tf
+if version.parse(tf.__version__) >= version.parse("2.11.0"):
+    from tensorflow.keras.optimizers.legacy import Optimizer
+else:
+    from tensorflow.keras.optimizers import Optimizer
 
 from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 
-class AdaBeliefOptimizer(tf.keras.optimizers.Optimizer):
+class AdaBeliefOptimizer(Optimizer):
     """
     It implements the AdaBeliefOptimizer proposed by
     Juntang Zhuang et al. in [AdaBelief Optimizer: Adapting stepsizes by the belief
