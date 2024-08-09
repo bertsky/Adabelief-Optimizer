@@ -19,7 +19,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-          'tensorflow>=2.0.0',
+          'tensorflow>=2.0.0,<2.16.0',
           'colorama>=0.4.0',
           'tabulate>=0.7',
       ],
