@@ -10,9 +10,6 @@ if version.parse(tf.__version__) >= version.parse("2.11.0"):
 else:
     from tensorflow.keras.optimizers import Optimizer
 
-from tabulate import tabulate
-from colorama import Fore, Back, Style
-
 
 class AdaBeliefOptimizer(Optimizer):
     """
@@ -110,31 +107,6 @@ class AdaBeliefOptimizer(Optimizer):
                 compatibility, recommended to use `learning_rate` instead.
         """
         super().__init__(name, **kwargs)
-
-        # ------------------------------------------------------------------------------
-        # Print modifications to default arguments
-        if print_change_log:
-            print(Fore.RED + 'Please check your arguments if you have upgraded adabelief-tf from version 0.0.1.')
-            print(Fore.RED + 'Modifications to default arguments:')
-            default_table = tabulate([
-                ['adabelief-tf=0.0.1','1e-8','Not supported','Not supported'],
-                ['>=0.1.0 (Current 0.2.1)','1e-14','supported','default: True']],
-                headers=['eps','weight_decouple','rectify'])
-            print(Fore.RED + default_table)
-
-            recommend_table = tabulate([
-                ['Recommended epsilon = 1e-7', 'Recommended epsilon = 1e-14'],
-                ],
-                headers=['SGD better than Adam (e.g. CNN for Image Classification)','Adam better than SGD (e.g. Transformer, GAN)'])
-            print(Fore.BLUE + recommend_table)
-
-            print(Fore.BLUE +'For a complete table of recommended hyperparameters, see')
-            print(Fore.BLUE + 'https://github.com/juntang-zhuang/Adabelief-Optimizer')
-
-            print(Fore.GREEN + 'You can disable the log message by setting "print_change_log = False", though it is recommended to keep as a reminder.')
-
-            print(Style.RESET_ALL)
-        # ------------------------------------------------------------------------------
 
         self._set_hyper("learning_rate", kwargs.get("lr", learning_rate))
         self._set_hyper("beta_1", beta_1)
